@@ -1,0 +1,29 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: oaimg-build-
+spec:
+  serviceAccountName: 'pipeline'
+  pipelineRef:
+    name: oaimg-build
+  params:
+    - name: APP_SOURCE_GIT
+      value: https://github.com/jkeam/openshift-agent-install-manifest-generator
+    - name: PACKAGE_NAME
+      value: github.com/jkeam/openshift-agent-install-manifest-generator
+    - name: APP_NAME
+      value: oaimg-api
+    - name: DOCKERFILE
+      value: "./Containerfile"
+    - name: DEPLOY_PROJECT
+      value: oaimg
+  workspaces:
+  - name: workspace
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi
+        volumeMode: Filesystem

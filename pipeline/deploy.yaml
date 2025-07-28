@@ -1,0 +1,48 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oaimg-api
+  labels:
+    app: oaimg-api
+spec:
+  selector:
+    matchLabels:
+      app: oaimg-api
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: oaimg-api
+    spec:
+      containers:
+        - name: oaimg-api
+          image: image-registry.openshift-image-registry.svc:5000/hello-cicd/oaimg-api:latest
+          ports:
+          - containerPort: 8080
+            name: theport
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: oaimg-api
+  labels:
+    app: oaimg-api
+spec:
+  ports:
+    - name: port8080
+      port: 8080
+      targetPort: 8080
+  selector:
+    app: oaimg-api
+  type: LoadBalancer
