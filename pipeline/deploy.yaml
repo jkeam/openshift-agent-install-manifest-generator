@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: oaimg-api
-          image: image-registry.openshift-image-registry.svc:5000/hello-cicd/oaimg-api:latest
+          image: image-registry.openshift-image-registry.svc:5000/oaimg/oaimg-api:latest
           ports:
           - containerPort: 8080
             name: theport
