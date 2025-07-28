@@ -38,7 +38,7 @@ spec:
     - name: output
       workspace: workspace
     params:
-    - name: url
+    - name: URL
       value: $(params.APP_SOURCE_GIT)
     - name: revision
       value: $(params.APP_SOURCE_REVISION)
