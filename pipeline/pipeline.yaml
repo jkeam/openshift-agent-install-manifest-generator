@@ -91,7 +91,7 @@ spec:
       name: openshift-client
       kind: Task
     workspaces:
-      - name: manifest-dir
+      - name: manifest_dir
         workspace: workspace
     params:
       - name: SCRIPT
