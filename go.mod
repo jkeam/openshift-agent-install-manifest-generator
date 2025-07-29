@@ -6,6 +6,7 @@ require (
 	github.com/gin-contrib/cors v1.7.6
 	github.com/gin-gonic/gin v1.10.1
 	github.com/operator-framework/api v0.33.0
+	go.uber.org/mock v0.5.2
 	google.golang.org/grpc v1.74.2
 	google.golang.org/protobuf v1.36.6
 )
