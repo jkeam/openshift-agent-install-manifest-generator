@@ -4,7 +4,7 @@
   "recommendations": [
     "golang.go",
     "redhat.fabric8-analytics",
-    "vscodevim.vim",
+    "auiworks.amvim",
     "AdamCaviness.theme-monokai-dark-soda"
   ]
 }
