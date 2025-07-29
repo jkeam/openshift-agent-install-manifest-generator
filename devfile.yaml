@@ -1,6 +1,6 @@
 schemaVersion: 2.2.2
 metadata:
-  name: golang
+  name: oaimg
 components:
   - name: tools
     container:
@@ -17,7 +17,7 @@ components:
           value: /tmp/.cache
       endpoints:
         - exposure: public
-          name: 'health-check'
+          name: web
           protocol: https
           targetPort: 8080
 commands:
