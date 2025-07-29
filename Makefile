@@ -10,6 +10,10 @@ buildmac: clean
 run:
 	go run main.go
 
+.PHONY: test
+test:
+	go test
+
 .PHONY: clean
 clean:
 	rm -rf ./oaimg-service ./oaimg-service-arm64
