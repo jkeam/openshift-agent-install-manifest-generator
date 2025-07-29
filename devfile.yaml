@@ -29,9 +29,17 @@ commands:
       commandLine: go build
       group:
         kind: build
+  - id: test
+    exec:
+      label: "2. Test"
+      component: tools
+      workingDir: ${PROJECTS_ROOT}/openshift-agent-install-manifest-generator
+      commandLine: go test
+      group:
+        kind: test
   - id: run
     exec:
-      label: "2. Run"
+      label: "3. Run"
       component: tools
       workingDir: ${PROJECTS_ROOT}/openshift-agent-install-manifest-generator
       commandLine: ./oaimg-service
