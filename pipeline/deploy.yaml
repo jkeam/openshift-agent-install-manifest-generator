@@ -46,3 +46,21 @@ spec:
   selector:
     app: oaimg-api
   type: LoadBalancer
+
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: oaimg-api
+  labels:
+    app: oaimg-api
+spec:
+  path: /
+  to:
+    kind: Service
+    name: oaimg-api
+    weight: 100
+  port:
+    targetPort: port8080
+  tls:
+    termination: edge
