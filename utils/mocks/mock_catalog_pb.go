@@ -7,13 +7,13 @@
 //
 
 // Package mock_utils is a generated GoMock package.
-package mock_utils
+package mocks
 
 import (
 	context "context"
 	reflect "reflect"
 
-	utils "github.com/jkeam/openshift-agent-install-manifest-generator/utils"
+	"github.com/jkeam/openshift-agent-install-manifest-generator/utils"
 	gomock "go.uber.org/mock/gomock"
 	grpc "google.golang.org/grpc"
 )

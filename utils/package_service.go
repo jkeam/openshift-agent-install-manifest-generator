@@ -9,24 +9,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/operator-framework/api/pkg/operators/v1alpha1"
-	grpc "google.golang.org/grpc"
 )
 
-type ChannelResponse struct {
-	CsvName          string   `json:"csvName"`
-	DisplayName      string   `json:"displayName"`
-	AdditionalImages []string `json:"additionalImages"`
-}
-
-type GetPackageResponse struct {
-	PackageName        string                      `json:"packageName"`
-	DefaultChannel     string                      `json:"defaultChannel"`
-	DefaultDisplayName string                      `json:"defaultDisplayName"`
-	Channels           map[string]*ChannelResponse `json:"channels"`
-}
-
 func GetPackageNames(c *gin.Context) {
-	conn, err := grpc.NewClient("redhat-operators.openshift-marketplace.svc.cluster.local:50051", grpc.WithInsecure())
+	conn, err := NewMarketPlaceClient()
 	if err != nil {
 		log.Fatalf("Failed connecting: %v", err)
 	}
@@ -55,9 +41,7 @@ func GetPackageNames(c *gin.Context) {
 }
 
 func GetPackageByName(packageName string) *GetPackageResponse {
-	httpResp := &GetPackageResponse{Channels: make(map[string]*ChannelResponse)}
-
-	conn, err := grpc.NewClient("redhat-operators.openshift-marketplace.svc.cluster.local:50051", grpc.WithInsecure())
+	conn, err := NewMarketPlaceClient()
 	if err != nil {
 		log.Fatalf("Failed connecting: %v", err)
 	}
@@ -70,6 +54,7 @@ func GetPackageByName(packageName string) *GetPackageResponse {
 		log.Fatalf("Failed getting package: %v", err)
 	}
 
+	httpResp := &GetPackageResponse{Channels: make(map[string]*ChannelResponse)}
 	httpResp.PackageName = resp.GetName()
 	httpResp.DefaultChannel = resp.GetDefaultChannelName()
 
