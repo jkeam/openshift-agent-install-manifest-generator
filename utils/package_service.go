@@ -9,60 +9,56 @@ import (
 	"github.com/operator-framework/api/pkg/operators/v1alpha1"
 )
 
-// INTERNAL HELPER FUNCTIONS
+// HELPER FUNCTIONS
 
 // Helper function to get a specific package by name
-func getPackageByName(packageName string) *OperatorPackage {
-	// create client
-	client := NewOpenShiftRegistryClient()
-	resp, err := client.GetPackage(context.Background(), &GetPackageRequest{Name: packageName})
+func getPackageByName(client RegistryClient, packageName string) *OperatorPackage {
+	thePackage, err := client.GetPackage(context.Background(), &GetPackageRequest{Name: packageName})
 	if err != nil {
 		log.Fatalf("Failed getting package: %v", err)
 	}
 
 	// process results
-	httpResp := &OperatorPackage{Channels: make(map[string]*OperatorChannel)}
-	httpResp.PackageName = resp.GetName()
-	httpResp.DefaultChannel = resp.GetDefaultChannelName()
+	operatorPackage := &OperatorPackage{Channels: make(map[string]*OperatorChannel)}
+	operatorPackage.PackageName = thePackage.GetName()
+	operatorPackage.DefaultChannel = thePackage.GetDefaultChannelName()
 
-	for _, element := range resp.GetChannels() {
-		channelResponse := &OperatorChannel{CsvName: element.GetCsvName()}
+	for _, element := range thePackage.GetChannels() {
+		channel := &OperatorChannel{CsvName: element.GetCsvName()}
 
 		// Get bundle for channel
-		channelResp, channelErr := client.GetBundle(
+		bundle, bundleErr := client.GetBundle(
 			context.Background(),
 			&GetBundleRequest{
-				PkgName:     resp.GetName(),
+				PkgName:     thePackage.GetName(),
 				ChannelName: element.GetName(),
 				CsvName:     element.GetCsvName(),
 			},
 		)
-		if channelErr != nil {
-			log.Fatalf("Failed getting bundle for channel: %v", channelErr)
+		if bundleErr != nil {
+			log.Fatalf("Failed getting bundle for channel: %v", bundleErr)
 		}
 
 		// unmarshall into channel response
 		var csv v1alpha1.ClusterServiceVersion
-		csvBytes := []byte(channelResp.GetCsvJson())
+		csvBytes := []byte(bundle.GetCsvJson())
 		json.Unmarshal(csvBytes, &csv)
 
 		// set name and populate the channel additional images
-		channelResponse.DisplayName = csv.Spec.DisplayName
+		channel.DisplayName = csv.Spec.DisplayName
 		for _, additionalImage := range csv.Spec.RelatedImages {
 			// TODO: Check to see if Image is already in AdditionalImages
-			channelResponse.AdditionalImages = append(channelResponse.AdditionalImages, additionalImage.Image)
+			channel.AdditionalImages = append(channel.AdditionalImages, additionalImage.Image)
 		}
-		httpResp.Channels[element.GetName()] = channelResponse
+		operatorPackage.Channels[element.GetName()] = channel
 	}
 
-	httpResp.DefaultDisplayName = httpResp.Channels[httpResp.DefaultChannel].DisplayName
-	return httpResp
+	operatorPackage.DefaultDisplayName = operatorPackage.Channels[operatorPackage.DefaultChannel].DisplayName
+	return operatorPackage
 }
 
-func getPackages() []*OperatorPackage {
-	// create client
-	client := NewOpenShiftRegistryClient()
-	resp, err := client.ListPackages(context.Background(), &ListPackageRequest{})
+func getPackages(client RegistryClient) []*OperatorPackage {
+	packageListing, err := client.ListPackages(context.Background(), &ListPackageRequest{})
 	if err != nil {
 		log.Fatalf("Failed listing packages: %v", err)
 	}
@@ -70,26 +66,30 @@ func getPackages() []*OperatorPackage {
 	// process output
 	var packages []*OperatorPackage
 	for {
-		packageName, err := resp.Recv()
+		thePackage, err := packageListing.Recv()
 		if err == io.EOF {
 			break
 		}
 		if err != nil {
 			log.Fatalf("%v.ListPackages(_) = _, %v", client, err)
 		}
-		packages = append(packages, getPackageByName(packageName.GetName()))
+		packageName := thePackage.GetName()
+		// TODO: make sure we haven't processed packageName already
+		packages = append(packages, getPackageByName(client, packageName))
 	}
 	return packages
 }
 
-// EXPORTED FUNCTIONS
+// EXTERNAL FUNCTIONS
 
-// Get operator package names
+// Get operator packages
 func GetPackages() any {
-	return getPackages()
+	client := NewOpenShiftRegistryClient()
+	return getPackages(client)
 }
 
 // Get package by name
 func GetPackageByName(name string) any {
-	return getPackageByName(name)
+	client := NewOpenShiftRegistryClient()
+	return getPackageByName(client, name)
 }
