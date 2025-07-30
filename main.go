@@ -15,8 +15,8 @@ func main() {
 	config.AllowHeaders = []string{"Content-Type"}
 
 	router.Use(cors.New(config))
-	router.GET("/packages", utils.GetPackageNames)
-	router.GET("/packages/:packageName", utils.GetPackage)
+	router.GET("/packages", utils.GetPackagesRoute)
+	router.GET("/packages/:packageName", utils.GetPackageByNameRoute)
 
 	router.Run(":8080")
 }

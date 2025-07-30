@@ -5,9 +5,7 @@ import (
 	"encoding/json"
 	"io"
 	"log"
-	"net/http"
 
-	"github.com/gin-gonic/gin"
 	"github.com/operator-framework/api/pkg/operators/v1alpha1"
 )
 
@@ -15,15 +13,8 @@ import (
 
 // Helper function to get a specific package by name
 func getPackageByName(packageName string) *OperatorPackage {
-	// open connection
-	conn, err := NewMarketPlaceClient()
-	if err != nil {
-		log.Fatalf("Failed connecting: %v", err)
-	}
-	defer conn.Close()
-
 	// create client
-	client := NewRegistryClient(conn)
+	client := NewOpenShiftRegistryClient()
 	resp, err := client.GetPackage(context.Background(), &GetPackageRequest{Name: packageName})
 	if err != nil {
 		log.Fatalf("Failed getting package: %v", err)
@@ -68,16 +59,9 @@ func getPackageByName(packageName string) *OperatorPackage {
 	return httpResp
 }
 
-func getPackageNames() []*OperatorPackage {
-	// open conn
-	conn, err := NewMarketPlaceClient()
-	if err != nil {
-		log.Fatalf("Failed connecting: %v", err)
-	}
-	defer conn.Close()
-
+func getPackages() []*OperatorPackage {
 	// create client
-	client := NewRegistryClient(conn)
+	client := NewOpenShiftRegistryClient()
 	resp, err := client.ListPackages(context.Background(), &ListPackageRequest{})
 	if err != nil {
 		log.Fatalf("Failed listing packages: %v", err)
@@ -101,13 +85,11 @@ func getPackageNames() []*OperatorPackage {
 // EXPORTED FUNCTIONS
 
 // Get operator package names
-func GetPackageNames(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, getPackageNames())
+func GetPackages() any {
+	return getPackages()
 }
 
 // Get package by name
-func GetPackage(c *gin.Context) {
-	packageName := c.Param("packageName")
-	httpResp := getPackageByName(packageName)
-	c.IndentedJSON(http.StatusOK, httpResp)
+func GetPackageByName(name string) any {
+	return getPackageByName(name)
 }
