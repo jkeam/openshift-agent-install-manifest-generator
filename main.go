@@ -22,18 +22,18 @@ func setupRouter() *gin.Engine {
 }
 
 // Add getPackages endpoint
-func getPackages(router *gin.Engine) *gin.Engine {
+func getPackages(router *gin.Engine, handler func() any) *gin.Engine {
 	router.GET("/packages", func(c *gin.Context) {
-		c.IndentedJSON(http.StatusOK, utils.GetPackages())
+		c.IndentedJSON(http.StatusOK, handler())
 	})
 	return router
 }
 
 // Add getPackagesByName endpoint
-func getPackageByName(router *gin.Engine) *gin.Engine {
+func getPackageByName(router *gin.Engine, handler func(string) any) *gin.Engine {
 	router.GET("/packages/:packageName", func(c *gin.Context) {
 		packageName := c.Param("packageName")
-		c.IndentedJSON(http.StatusOK, utils.GetPackageByName(packageName))
+		c.IndentedJSON(http.StatusOK, handler(packageName))
 	})
 	return router
 }
@@ -41,7 +41,7 @@ func getPackageByName(router *gin.Engine) *gin.Engine {
 // Entrypoint
 func main() {
 	router := setupRouter()
-	router = getPackages(router)
-	router = getPackageByName(router)
+	router = getPackages(router, utils.GetPackages)
+	router = getPackageByName(router, utils.GetPackageByName)
 	router.Run(":8080")
 }
