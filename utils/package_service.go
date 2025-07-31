@@ -13,7 +13,7 @@ import (
 
 // Helper function to get a specific package by name
 func getPackageByName(client *OpenShiftRegistryClient, packageName string) *OperatorPackage {
-	thePackage, err := client.RegistryClient.GetPackage(context.Background(), &GetPackageRequest{Name: packageName})
+	thePackage, err := client.GetPackage(context.Background(), &GetPackageRequest{Name: packageName})
 	if err != nil {
 		log.Fatalf("Failed getting package: %v", err)
 	}
@@ -27,7 +27,7 @@ func getPackageByName(client *OpenShiftRegistryClient, packageName string) *Oper
 		channel := &OperatorChannel{CsvName: element.GetCsvName()}
 
 		// Get bundle for channel
-		bundle, bundleErr := client.RegistryClient.GetBundle(
+		bundle, bundleErr := client.GetBundle(
 			context.Background(),
 			&GetBundleRequest{
 				PkgName:     thePackage.GetName(),
@@ -58,7 +58,7 @@ func getPackageByName(client *OpenShiftRegistryClient, packageName string) *Oper
 }
 
 func getPackages(client *OpenShiftRegistryClient) []*OperatorPackage {
-	packageListing, err := client.RegistryClient.ListPackages(context.Background(), &ListPackageRequest{})
+	packageListing, err := client.ListPackages(context.Background(), &ListPackageRequest{})
 	if err != nil {
 		log.Fatalf("Failed listing packages: %v", err)
 	}

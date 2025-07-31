@@ -1,6 +1,7 @@
 package utils
 
 import (
+	context "context"
 	"log"
 
 	grpc "google.golang.org/grpc"
@@ -25,6 +26,16 @@ type OperatorPackage struct {
 // OpenShift Registry Client
 type OpenShiftRegistryClient struct {
 	RegistryClient RegistryClient
+}
+func (o *OpenShiftRegistryClient) ListPackages(ctx context.Context, in *ListPackageRequest) (grpc.ServerStreamingClient[PackageName], error) {
+	return o.RegistryClient.ListPackages(ctx, in)
+}
+func (o *OpenShiftRegistryClient) GetPackage(ctx context.Context, in *GetPackageRequest) (*Package, error) {
+	return o.RegistryClient.GetPackage(ctx, in)
+}
+
+func (o *OpenShiftRegistryClient) GetBundle(ctx context.Context, in *GetBundleRequest) (*Bundle, error) {
+	return o.RegistryClient.GetBundle(ctx, in)
 }
 
 // Returns new red hat operator marketplace client
