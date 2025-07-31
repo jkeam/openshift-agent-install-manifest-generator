@@ -3,6 +3,7 @@
     "golang.go",
     "redhat.fabric8-analytics",
     "auiworks.amvim",
-    "AdamCaviness.theme-monokai-dark-soda"
+    "AdamCaviness.theme-monokai-dark-soda",
+    "pr1sm8.theme-panda"
   ]
 }
