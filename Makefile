@@ -12,7 +12,7 @@ run:
 
 .PHONY: test
 test:
-	go test
+	go test ./...
 
 .PHONY: clean
 clean:

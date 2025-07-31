@@ -12,9 +12,9 @@ import (
 // HELPER FUNCTIONS
 
 // Helper function to get a specific package by name
-func getPackageByName(client *OpenShiftRegistryClient, packageName string) *OperatorPackage {
+func getPackageByName(client OpenShiftRegistryClientInterface, packageName string) *OperatorPackage {
 	thePackage, err := client.GetPackage(context.Background(), &GetPackageRequest{Name: packageName})
-	if err != nil {
+	if err != nil || thePackage == nil {
 		log.Fatalf("Failed getting package: %v", err)
 	}
 
@@ -53,13 +53,16 @@ func getPackageByName(client *OpenShiftRegistryClient, packageName string) *Oper
 		operatorPackage.Channels[element.GetName()] = channel
 	}
 
-	operatorPackage.DefaultDisplayName = operatorPackage.Channels[operatorPackage.DefaultChannel].DisplayName
+	defaultChannel := operatorPackage.Channels[operatorPackage.DefaultChannel]
+	if defaultChannel != nil {
+		operatorPackage.DefaultDisplayName = defaultChannel.DisplayName
+	}
 	return operatorPackage
 }
 
-func getPackages(client *OpenShiftRegistryClient) []*OperatorPackage {
+func getPackages(client OpenShiftRegistryClientInterface) []*OperatorPackage {
 	packageListing, err := client.ListPackages(context.Background(), &ListPackageRequest{})
-	if err != nil {
+	if err != nil || packageListing == nil {
 		log.Fatalf("Failed listing packages: %v", err)
 	}
 
@@ -83,11 +86,11 @@ func getPackages(client *OpenShiftRegistryClient) []*OperatorPackage {
 // EXTERNAL FUNCTIONS
 
 // Get operator packages
-func GetPackages(client *OpenShiftRegistryClient) any {
+func GetPackages(client OpenShiftRegistryClientInterface) any {
 	return getPackages(client)
 }
 
 // Get package by name
-func GetPackageByName(client *OpenShiftRegistryClient, name string) any {
+func GetPackageByName(client OpenShiftRegistryClientInterface, name string) any {
 	return getPackageByName(client, name)
 }

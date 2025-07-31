@@ -24,16 +24,21 @@ type OperatorPackage struct {
 }
 
 // OpenShift Registry Client
+type OpenShiftRegistryClientInterface interface {
+	ListPackages(ctx context.Context, in *ListPackageRequest) (grpc.ServerStreamingClient[PackageName], error)
+	GetPackage(ctx context.Context, in *GetPackageRequest) (*Package, error)
+	GetBundle(ctx context.Context, in *GetBundleRequest) (*Bundle, error)
+}
 type OpenShiftRegistryClient struct {
 	RegistryClient RegistryClient
 }
+
 func (o *OpenShiftRegistryClient) ListPackages(ctx context.Context, in *ListPackageRequest) (grpc.ServerStreamingClient[PackageName], error) {
 	return o.RegistryClient.ListPackages(ctx, in)
 }
 func (o *OpenShiftRegistryClient) GetPackage(ctx context.Context, in *GetPackageRequest) (*Package, error) {
 	return o.RegistryClient.GetPackage(ctx, in)
 }
-
 func (o *OpenShiftRegistryClient) GetBundle(ctx context.Context, in *GetBundleRequest) (*Bundle, error) {
 	return o.RegistryClient.GetBundle(ctx, in)
 }

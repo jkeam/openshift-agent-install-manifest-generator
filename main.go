@@ -22,7 +22,7 @@ func setupRouter() *gin.Engine {
 }
 
 // Add getPackages endpoint
-func getPackages(router *gin.Engine, client *utils.OpenShiftRegistryClient, handler func(*utils.OpenShiftRegistryClient) any) *gin.Engine {
+func getPackages(router *gin.Engine, client utils.OpenShiftRegistryClientInterface, handler func(utils.OpenShiftRegistryClientInterface) any) *gin.Engine {
 	router.GET("/packages", func(c *gin.Context) {
 		c.IndentedJSON(http.StatusOK, handler(client))
 	})
@@ -30,7 +30,7 @@ func getPackages(router *gin.Engine, client *utils.OpenShiftRegistryClient, hand
 }
 
 // Add getPackagesByName endpoint
-func getPackageByName(router *gin.Engine, client *utils.OpenShiftRegistryClient, handler func(*utils.OpenShiftRegistryClient, string) any) *gin.Engine {
+func getPackageByName(router *gin.Engine, client utils.OpenShiftRegistryClientInterface, handler func(utils.OpenShiftRegistryClientInterface, string) any) *gin.Engine {
 	router.GET("/packages/:packageName", func(c *gin.Context) {
 		packageName := c.Param("packageName")
 		c.IndentedJSON(http.StatusOK, handler(client, packageName))

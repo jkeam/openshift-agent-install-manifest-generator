@@ -16,7 +16,7 @@ func TestGetPackages(t *testing.T) {
 	msg := `{success: true}`
 	client := &utils.OpenShiftRegistryClient{}
 	router := setupRouter()
-	router = getPackages(router, client, func(c *utils.OpenShiftRegistryClient) any {
+	router = getPackages(router, client, func(c utils.OpenShiftRegistryClientInterface) any {
 		return msg
 	})
 
@@ -33,7 +33,7 @@ func TestGetPackageByName(t *testing.T) {
 	msg := `packageName`
 	client := &utils.OpenShiftRegistryClient{}
 	router := setupRouter()
-	router = getPackageByName(router, client, func(c *utils.OpenShiftRegistryClient, name string) any {
+	router = getPackageByName(router, client, func(c utils.OpenShiftRegistryClientInterface, name string) any {
 		return name
 	})
 
