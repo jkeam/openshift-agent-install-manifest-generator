@@ -5,15 +5,18 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"strings"
+
+	"github.com/jkeam/openshift-agent-install-manifest-generator/utils"
+	"github.com/stretchr/testify/assert"
 )
 
 // Get Package Test
 func TestGetPackages(t *testing.T) {
 	msg := `{success: true}`
+	client := &utils.OpenShiftRegistryClient{}
 	router := setupRouter()
-	router = getPackages(router, func () any {
+	router = getPackages(router, client, func(c *utils.OpenShiftRegistryClient) any {
 		return msg
 	})
 
@@ -28,8 +31,9 @@ func TestGetPackages(t *testing.T) {
 // Get Package by Name
 func TestGetPackageByName(t *testing.T) {
 	msg := `packageName`
+	client := &utils.OpenShiftRegistryClient{}
 	router := setupRouter()
-	router = getPackageByName(router, func (name string) any {
+	router = getPackageByName(router, client, func(c *utils.OpenShiftRegistryClient, name string) any {
 		return name
 	})
 

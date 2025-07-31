@@ -1,5 +1,12 @@
 package utils
 
+import (
+	"log"
+
+	grpc "google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+)
+
 // Representation of an operator channel
 type OperatorChannel struct {
 	CsvName          string   `json:"csvName"`
@@ -13,4 +20,25 @@ type OperatorPackage struct {
 	DefaultChannel     string                      `json:"defaultChannel"`
 	DefaultDisplayName string                      `json:"defaultDisplayName"`
 	Channels           map[string]*OperatorChannel `json:"channels"`
+}
+
+// OpenShift Registry Client
+type OpenShiftRegistryClient struct {
+	RegistryClient RegistryClient
+}
+
+// Returns new red hat operator marketplace client
+func NewOpenShiftRegistryClient() *OpenShiftRegistryClient {
+	// open connection
+	conn, err := grpc.NewClient(
+		"redhat-operators.openshift-marketplace.svc.cluster.local:50051",
+		grpc.WithTransportCredentials(insecure.NewCredentials()))
+
+	if err != nil {
+		log.Fatalf("Failed connecting: %v", err)
+	}
+	defer conn.Close()
+
+	// create client
+	return &OpenShiftRegistryClient{RegistryClient: NewRegistryClient(conn)}
 }
