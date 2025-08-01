@@ -7,13 +7,12 @@
 //
 
 // Package mock_utils is a generated GoMock package.
-package mocks
+package utils
 
 import (
 	context "context"
 	reflect "reflect"
 
-	"github.com/jkeam/openshift-agent-install-manifest-generator/utils"
 	gomock "go.uber.org/mock/gomock"
 	grpc "google.golang.org/grpc"
 )
@@ -43,14 +42,14 @@ func (m *MockRegistryClient) EXPECT() *MockRegistryClientMockRecorder {
 }
 
 // GetBundle mocks base method.
-func (m *MockRegistryClient) GetBundle(ctx context.Context, in *utils.GetBundleRequest, opts ...grpc.CallOption) (*utils.Bundle, error) {
+func (m *MockRegistryClient) GetBundle(ctx context.Context, in *GetBundleRequest, opts ...grpc.CallOption) (*Bundle, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetBundle", varargs...)
-	ret0, _ := ret[0].(*utils.Bundle)
+	ret0, _ := ret[0].(*Bundle)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -63,14 +62,14 @@ func (mr *MockRegistryClientMockRecorder) GetBundle(ctx, in any, opts ...any) *g
 }
 
 // GetBundleForChannel mocks base method.
-func (m *MockRegistryClient) GetBundleForChannel(ctx context.Context, in *utils.GetBundleInChannelRequest, opts ...grpc.CallOption) (*utils.Bundle, error) {
+func (m *MockRegistryClient) GetBundleForChannel(ctx context.Context, in *GetBundleInChannelRequest, opts ...grpc.CallOption) (*Bundle, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetBundleForChannel", varargs...)
-	ret0, _ := ret[0].(*utils.Bundle)
+	ret0, _ := ret[0].(*Bundle)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -83,14 +82,14 @@ func (mr *MockRegistryClientMockRecorder) GetBundleForChannel(ctx, in any, opts 
 }
 
 // GetBundleThatReplaces mocks base method.
-func (m *MockRegistryClient) GetBundleThatReplaces(ctx context.Context, in *utils.GetReplacementRequest, opts ...grpc.CallOption) (*utils.Bundle, error) {
+func (m *MockRegistryClient) GetBundleThatReplaces(ctx context.Context, in *GetReplacementRequest, opts ...grpc.CallOption) (*Bundle, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetBundleThatReplaces", varargs...)
-	ret0, _ := ret[0].(*utils.Bundle)
+	ret0, _ := ret[0].(*Bundle)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -103,14 +102,14 @@ func (mr *MockRegistryClientMockRecorder) GetBundleThatReplaces(ctx, in any, opt
 }
 
 // GetChannelEntriesThatProvide mocks base method.
-func (m *MockRegistryClient) GetChannelEntriesThatProvide(ctx context.Context, in *utils.GetAllProvidersRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[utils.ChannelEntry], error) {
+func (m *MockRegistryClient) GetChannelEntriesThatProvide(ctx context.Context, in *GetAllProvidersRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[ChannelEntry], error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetChannelEntriesThatProvide", varargs...)
-	ret0, _ := ret[0].(grpc.ServerStreamingClient[utils.ChannelEntry])
+	ret0, _ := ret[0].(grpc.ServerStreamingClient[ChannelEntry])
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -123,14 +122,14 @@ func (mr *MockRegistryClientMockRecorder) GetChannelEntriesThatProvide(ctx, in a
 }
 
 // GetChannelEntriesThatReplace mocks base method.
-func (m *MockRegistryClient) GetChannelEntriesThatReplace(ctx context.Context, in *utils.GetAllReplacementsRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[utils.ChannelEntry], error) {
+func (m *MockRegistryClient) GetChannelEntriesThatReplace(ctx context.Context, in *GetAllReplacementsRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[ChannelEntry], error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetChannelEntriesThatReplace", varargs...)
-	ret0, _ := ret[0].(grpc.ServerStreamingClient[utils.ChannelEntry])
+	ret0, _ := ret[0].(grpc.ServerStreamingClient[ChannelEntry])
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -143,14 +142,14 @@ func (mr *MockRegistryClientMockRecorder) GetChannelEntriesThatReplace(ctx, in a
 }
 
 // GetDefaultBundleThatProvides mocks base method.
-func (m *MockRegistryClient) GetDefaultBundleThatProvides(ctx context.Context, in *utils.GetDefaultProviderRequest, opts ...grpc.CallOption) (*utils.Bundle, error) {
+func (m *MockRegistryClient) GetDefaultBundleThatProvides(ctx context.Context, in *GetDefaultProviderRequest, opts ...grpc.CallOption) (*Bundle, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetDefaultBundleThatProvides", varargs...)
-	ret0, _ := ret[0].(*utils.Bundle)
+	ret0, _ := ret[0].(*Bundle)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -163,14 +162,14 @@ func (mr *MockRegistryClientMockRecorder) GetDefaultBundleThatProvides(ctx, in a
 }
 
 // GetLatestChannelEntriesThatProvide mocks base method.
-func (m *MockRegistryClient) GetLatestChannelEntriesThatProvide(ctx context.Context, in *utils.GetLatestProvidersRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[utils.ChannelEntry], error) {
+func (m *MockRegistryClient) GetLatestChannelEntriesThatProvide(ctx context.Context, in *GetLatestProvidersRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[ChannelEntry], error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetLatestChannelEntriesThatProvide", varargs...)
-	ret0, _ := ret[0].(grpc.ServerStreamingClient[utils.ChannelEntry])
+	ret0, _ := ret[0].(grpc.ServerStreamingClient[ChannelEntry])
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -183,14 +182,14 @@ func (mr *MockRegistryClientMockRecorder) GetLatestChannelEntriesThatProvide(ctx
 }
 
 // GetPackage mocks base method.
-func (m *MockRegistryClient) GetPackage(ctx context.Context, in *utils.GetPackageRequest, opts ...grpc.CallOption) (*utils.Package, error) {
+func (m *MockRegistryClient) GetPackage(ctx context.Context, in *GetPackageRequest, opts ...grpc.CallOption) (*Package, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetPackage", varargs...)
-	ret0, _ := ret[0].(*utils.Package)
+	ret0, _ := ret[0].(*Package)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -203,14 +202,14 @@ func (mr *MockRegistryClientMockRecorder) GetPackage(ctx, in any, opts ...any) *
 }
 
 // ListBundles mocks base method.
-func (m *MockRegistryClient) ListBundles(ctx context.Context, in *utils.ListBundlesRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[utils.Bundle], error) {
+func (m *MockRegistryClient) ListBundles(ctx context.Context, in *ListBundlesRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Bundle], error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ListBundles", varargs...)
-	ret0, _ := ret[0].(grpc.ServerStreamingClient[utils.Bundle])
+	ret0, _ := ret[0].(grpc.ServerStreamingClient[Bundle])
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -223,14 +222,14 @@ func (mr *MockRegistryClientMockRecorder) ListBundles(ctx, in any, opts ...any) 
 }
 
 // ListPackages mocks base method.
-func (m *MockRegistryClient) ListPackages(ctx context.Context, in *utils.ListPackageRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[utils.PackageName], error) {
+func (m *MockRegistryClient) ListPackages(ctx context.Context, in *ListPackageRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[PackageName], error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ListPackages", varargs...)
-	ret0, _ := ret[0].(grpc.ServerStreamingClient[utils.PackageName])
+	ret0, _ := ret[0].(grpc.ServerStreamingClient[PackageName])
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -267,10 +266,10 @@ func (m *MockRegistryServer) EXPECT() *MockRegistryServerMockRecorder {
 }
 
 // GetBundle mocks base method.
-func (m *MockRegistryServer) GetBundle(arg0 context.Context, arg1 *utils.GetBundleRequest) (*utils.Bundle, error) {
+func (m *MockRegistryServer) GetBundle(arg0 context.Context, arg1 *GetBundleRequest) (*Bundle, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetBundle", arg0, arg1)
-	ret0, _ := ret[0].(*utils.Bundle)
+	ret0, _ := ret[0].(*Bundle)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -282,10 +281,10 @@ func (mr *MockRegistryServerMockRecorder) GetBundle(arg0, arg1 any) *gomock.Call
 }
 
 // GetBundleForChannel mocks base method.
-func (m *MockRegistryServer) GetBundleForChannel(arg0 context.Context, arg1 *utils.GetBundleInChannelRequest) (*utils.Bundle, error) {
+func (m *MockRegistryServer) GetBundleForChannel(arg0 context.Context, arg1 *GetBundleInChannelRequest) (*Bundle, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetBundleForChannel", arg0, arg1)
-	ret0, _ := ret[0].(*utils.Bundle)
+	ret0, _ := ret[0].(*Bundle)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -297,10 +296,10 @@ func (mr *MockRegistryServerMockRecorder) GetBundleForChannel(arg0, arg1 any) *g
 }
 
 // GetBundleThatReplaces mocks base method.
-func (m *MockRegistryServer) GetBundleThatReplaces(arg0 context.Context, arg1 *utils.GetReplacementRequest) (*utils.Bundle, error) {
+func (m *MockRegistryServer) GetBundleThatReplaces(arg0 context.Context, arg1 *GetReplacementRequest) (*Bundle, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetBundleThatReplaces", arg0, arg1)
-	ret0, _ := ret[0].(*utils.Bundle)
+	ret0, _ := ret[0].(*Bundle)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -312,7 +311,7 @@ func (mr *MockRegistryServerMockRecorder) GetBundleThatReplaces(arg0, arg1 any) 
 }
 
 // GetChannelEntriesThatProvide mocks base method.
-func (m *MockRegistryServer) GetChannelEntriesThatProvide(arg0 *utils.GetAllProvidersRequest, arg1 grpc.ServerStreamingServer[utils.ChannelEntry]) error {
+func (m *MockRegistryServer) GetChannelEntriesThatProvide(arg0 *GetAllProvidersRequest, arg1 grpc.ServerStreamingServer[ChannelEntry]) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetChannelEntriesThatProvide", arg0, arg1)
 	ret0, _ := ret[0].(error)
@@ -326,7 +325,7 @@ func (mr *MockRegistryServerMockRecorder) GetChannelEntriesThatProvide(arg0, arg
 }
 
 // GetChannelEntriesThatReplace mocks base method.
-func (m *MockRegistryServer) GetChannelEntriesThatReplace(arg0 *utils.GetAllReplacementsRequest, arg1 grpc.ServerStreamingServer[utils.ChannelEntry]) error {
+func (m *MockRegistryServer) GetChannelEntriesThatReplace(arg0 *GetAllReplacementsRequest, arg1 grpc.ServerStreamingServer[ChannelEntry]) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetChannelEntriesThatReplace", arg0, arg1)
 	ret0, _ := ret[0].(error)
@@ -340,10 +339,10 @@ func (mr *MockRegistryServerMockRecorder) GetChannelEntriesThatReplace(arg0, arg
 }
 
 // GetDefaultBundleThatProvides mocks base method.
-func (m *MockRegistryServer) GetDefaultBundleThatProvides(arg0 context.Context, arg1 *utils.GetDefaultProviderRequest) (*utils.Bundle, error) {
+func (m *MockRegistryServer) GetDefaultBundleThatProvides(arg0 context.Context, arg1 *GetDefaultProviderRequest) (*Bundle, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetDefaultBundleThatProvides", arg0, arg1)
-	ret0, _ := ret[0].(*utils.Bundle)
+	ret0, _ := ret[0].(*Bundle)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -355,7 +354,7 @@ func (mr *MockRegistryServerMockRecorder) GetDefaultBundleThatProvides(arg0, arg
 }
 
 // GetLatestChannelEntriesThatProvide mocks base method.
-func (m *MockRegistryServer) GetLatestChannelEntriesThatProvide(arg0 *utils.GetLatestProvidersRequest, arg1 grpc.ServerStreamingServer[utils.ChannelEntry]) error {
+func (m *MockRegistryServer) GetLatestChannelEntriesThatProvide(arg0 *GetLatestProvidersRequest, arg1 grpc.ServerStreamingServer[ChannelEntry]) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetLatestChannelEntriesThatProvide", arg0, arg1)
 	ret0, _ := ret[0].(error)
@@ -369,10 +368,10 @@ func (mr *MockRegistryServerMockRecorder) GetLatestChannelEntriesThatProvide(arg
 }
 
 // GetPackage mocks base method.
-func (m *MockRegistryServer) GetPackage(arg0 context.Context, arg1 *utils.GetPackageRequest) (*utils.Package, error) {
+func (m *MockRegistryServer) GetPackage(arg0 context.Context, arg1 *GetPackageRequest) (*Package, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPackage", arg0, arg1)
-	ret0, _ := ret[0].(*utils.Package)
+	ret0, _ := ret[0].(*Package)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -384,7 +383,7 @@ func (mr *MockRegistryServerMockRecorder) GetPackage(arg0, arg1 any) *gomock.Cal
 }
 
 // ListBundles mocks base method.
-func (m *MockRegistryServer) ListBundles(arg0 *utils.ListBundlesRequest, arg1 grpc.ServerStreamingServer[utils.Bundle]) error {
+func (m *MockRegistryServer) ListBundles(arg0 *ListBundlesRequest, arg1 grpc.ServerStreamingServer[Bundle]) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListBundles", arg0, arg1)
 	ret0, _ := ret[0].(error)
@@ -398,7 +397,7 @@ func (mr *MockRegistryServerMockRecorder) ListBundles(arg0, arg1 any) *gomock.Ca
 }
 
 // ListPackages mocks base method.
-func (m *MockRegistryServer) ListPackages(arg0 *utils.ListPackageRequest, arg1 grpc.ServerStreamingServer[utils.PackageName]) error {
+func (m *MockRegistryServer) ListPackages(arg0 *ListPackageRequest, arg1 grpc.ServerStreamingServer[PackageName]) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListPackages", arg0, arg1)
 	ret0, _ := ret[0].(error)

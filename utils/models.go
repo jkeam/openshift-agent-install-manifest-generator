@@ -25,21 +25,21 @@ type OperatorPackage struct {
 
 // OpenShift Registry Client
 type OpenShiftRegistryClientInterface interface {
-	ListPackages(ctx context.Context, in *ListPackageRequest) (grpc.ServerStreamingClient[PackageName], error)
-	GetPackage(ctx context.Context, in *GetPackageRequest) (*Package, error)
-	GetBundle(ctx context.Context, in *GetBundleRequest) (*Bundle, error)
+	ListPackages(ctx context.Context, in *ListPackageRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[PackageName], error)
+	GetPackage(ctx context.Context, in *GetPackageRequest, opts ...grpc.CallOption) (*Package, error)
+	GetBundle(ctx context.Context, in *GetBundleRequest, opts ...grpc.CallOption) (*Bundle, error)
 }
 type OpenShiftRegistryClient struct {
 	RegistryClient RegistryClient
 }
 
-func (o *OpenShiftRegistryClient) ListPackages(ctx context.Context, in *ListPackageRequest) (grpc.ServerStreamingClient[PackageName], error) {
+func (o *OpenShiftRegistryClient) ListPackages(ctx context.Context, in *ListPackageRequest, _ ...grpc.CallOption) (grpc.ServerStreamingClient[PackageName], error) {
 	return o.RegistryClient.ListPackages(ctx, in)
 }
-func (o *OpenShiftRegistryClient) GetPackage(ctx context.Context, in *GetPackageRequest) (*Package, error) {
+func (o *OpenShiftRegistryClient) GetPackage(ctx context.Context, in *GetPackageRequest, _ ...grpc.CallOption) (*Package, error) {
 	return o.RegistryClient.GetPackage(ctx, in)
 }
-func (o *OpenShiftRegistryClient) GetBundle(ctx context.Context, in *GetBundleRequest) (*Bundle, error) {
+func (o *OpenShiftRegistryClient) GetBundle(ctx context.Context, in *GetBundleRequest, _ ...grpc.CallOption) (*Bundle, error) {
 	return o.RegistryClient.GetBundle(ctx, in)
 }
 
