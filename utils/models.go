@@ -33,14 +33,14 @@ type OpenShiftRegistryClient struct {
 	RegistryClient RegistryClient
 }
 
-func (o *OpenShiftRegistryClient) ListPackages(ctx context.Context, in *ListPackageRequest, _ ...grpc.CallOption) (grpc.ServerStreamingClient[PackageName], error) {
-	return o.RegistryClient.ListPackages(ctx, in)
+func (o *OpenShiftRegistryClient) ListPackages(ctx context.Context, in *ListPackageRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[PackageName], error) {
+	return o.RegistryClient.ListPackages(ctx, in, opts...)
 }
-func (o *OpenShiftRegistryClient) GetPackage(ctx context.Context, in *GetPackageRequest, _ ...grpc.CallOption) (*Package, error) {
-	return o.RegistryClient.GetPackage(ctx, in)
+func (o *OpenShiftRegistryClient) GetPackage(ctx context.Context, in *GetPackageRequest, opts ...grpc.CallOption) (*Package, error) {
+	return o.RegistryClient.GetPackage(ctx, in, opts...)
 }
-func (o *OpenShiftRegistryClient) GetBundle(ctx context.Context, in *GetBundleRequest, _ ...grpc.CallOption) (*Bundle, error) {
-	return o.RegistryClient.GetBundle(ctx, in)
+func (o *OpenShiftRegistryClient) GetBundle(ctx context.Context, in *GetBundleRequest, opts ...grpc.CallOption) (*Bundle, error) {
+	return o.RegistryClient.GetBundle(ctx, in, opts...)
 }
 
 // Returns new red hat operator marketplace client
