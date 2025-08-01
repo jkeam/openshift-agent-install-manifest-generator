@@ -44,8 +44,37 @@ func (o *OpenShiftRegistryClientMock) GetBundle(ctx context.Context, in *GetBund
 }
 
 func TestGetPackageByName(t *testing.T) {
-	client := &OpenShiftRegistryClientMock{}
-	GetPackageByName(client, "test")
+	packageName := "submariner"
+	channelName := "channel"
+	csvName := "csv-name"
+	// get package
+	channels := []*Channel{
+		{Name: channelName, CsvName: csvName},
+	}
+	thePackage := &Package{
+		Name:               packageName,
+		DefaultChannelName: packageName,
+		Channels:           channels,
+	}
+	getPackageRequest := &GetPackageRequest{
+		Name: packageName,
+	}
+
+	// get bundle
+	bundle := &Bundle{
+		CsvJson: fmt.Sprintf(`{"spec": {displayName: "%s", "relatedImages": []}}`, packageName),
+	}
+	getBundleRequest := &GetBundleRequest {
+		PkgName: packageName,
+		ChannelName: channelName,
+		CsvName: csvName,
+	}
+
+	ctrl := gomock.NewController(t)
+	mockClient := NewMockRegistryClient(ctrl)
+	mockClient.EXPECT().GetPackage(context.Background(), getPackageRequest).Return(thePackage, nil).MinTimes(1)
+	mockClient.EXPECT().GetBundle(context.Background(), getBundleRequest).Return(bundle, nil).MinTimes(1)
+	GetPackageByName(mockClient, packageName)
 }
 
 func TestGetPackages(t *testing.T) {
