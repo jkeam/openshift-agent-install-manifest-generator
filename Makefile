@@ -1,9 +1,9 @@
 .PHONY: build
-build: clean
+build: clean test
 	GOOS=linux GOARCH=amd64 go build -o oaimg-service main.go
 
 .PHONY: buildmac
-buildmac: clean
+buildmac: clean test
 	GOOS=darwin GOARCH=arm64 go build -o oaimg-service-arm64 main.go
 
 .PHONY: run
@@ -12,7 +12,7 @@ run:
 
 .PHONY: test
 test:
-	go test
+	go test ./...
 
 .PHONY: clean
 clean:

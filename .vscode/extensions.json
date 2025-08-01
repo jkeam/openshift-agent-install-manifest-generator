@@ -1,10 +1,9 @@
 {
-  // See https://go.microsoft.com/fwlink/?LinkId=827846
-  // for the documentation about the extensions.json format
   "recommendations": [
     "golang.go",
     "redhat.fabric8-analytics",
     "auiworks.amvim",
-    "AdamCaviness.theme-monokai-dark-soda"
+    "AdamCaviness.theme-monokai-dark-soda",
+    "pr1sm8.theme-panda"
   ]
 }
