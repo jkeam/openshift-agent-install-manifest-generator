@@ -53,7 +53,6 @@ func NewOpenShiftRegistryClient() *OpenShiftRegistryClient {
 	if err != nil {
 		log.Fatalf("Failed connecting: %v", err)
 	}
-	defer conn.Close()
 
 	// create client
 	return &OpenShiftRegistryClient{RegistryClient: NewRegistryClient(conn)}
