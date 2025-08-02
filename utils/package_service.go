@@ -10,6 +10,14 @@ import (
 )
 
 // HELPER FUNCTIONS
+func appendUnique(tracker map[string]bool, list []string, value string) []string {
+	if tracker[value] {
+		return list
+	}
+	list = append(list, value)
+	tracker[value] = true
+	return list
+}
 
 // Helper function to get a specific package by name
 func getPackageByName(client OpenShiftRegistryClientInterface, packageName string) *OperatorPackage {
@@ -46,9 +54,9 @@ func getPackageByName(client OpenShiftRegistryClientInterface, packageName strin
 
 		// set name and populate the channel additional images
 		channel.DisplayName = csv.Spec.DisplayName
+		tracker := make(map[string]bool)
 		for _, additionalImage := range csv.Spec.RelatedImages {
-			// TODO: Check to see if Image is already in AdditionalImages
-			channel.AdditionalImages = append(channel.AdditionalImages, additionalImage.Image)
+			channel.AdditionalImages = appendUnique(tracker, channel.AdditionalImages, additionalImage.Image)
 		}
 		operatorPackage.Channels[element.GetName()] = channel
 	}
@@ -77,7 +85,6 @@ func getPackages(client OpenShiftRegistryClientInterface) []*OperatorPackage {
 			log.Fatalf("%v.ListPackages(_) = _, %v", client, err)
 		}
 		packageName := thePackage.GetName()
-		// TODO: make sure we haven't processed packageName already
 		packages = append(packages, getPackageByName(client, packageName))
 	}
 	return packages

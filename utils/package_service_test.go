@@ -65,3 +65,14 @@ func TestGetPackages(t *testing.T) {
 	GetPackages(mockClient)
 	assert.Equal(t, 1, serverStreamingClient.RecvCount)
 }
+
+func TestAppendUnique(t *testing.T) {
+	tracker := make(map[string]bool)
+	fruits := []string{"apple", "banana", "cherry", "apple", "banana", "cherry", "cherry"}
+	uniqueFruits := []string{"apple", "banana", "cherry"}
+	actualList := []string{}
+	for _, fruit := range fruits {
+		actualList = appendUnique(tracker, actualList, fruit)
+	}
+	assert.Equal(t, uniqueFruits, actualList)
+}
