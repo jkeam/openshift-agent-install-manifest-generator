@@ -6,41 +6,19 @@ import (
 	"io"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
 	gomock "go.uber.org/mock/gomock"
 	grpc "google.golang.org/grpc"
 )
 
 type ServerStreamingClientMock struct {
 	grpc.ClientStream
+	RecvCount int
 }
 
 func (s *ServerStreamingClientMock) Recv() (*PackageName, error) {
+	s.RecvCount++
 	return &PackageName{Name: "submariner"}, io.EOF
-}
-
-type OpenShiftRegistryClientMock struct {
-}
-
-func (o *OpenShiftRegistryClientMock) ListPackages(ctx context.Context, in *ListPackageRequest, _ ...grpc.CallOption) (grpc.ServerStreamingClient[PackageName], error) {
-	return nil, nil
-}
-func (o *OpenShiftRegistryClientMock) GetPackage(ctx context.Context, in *GetPackageRequest, _ ...grpc.CallOption) (*Package, error) {
-	channels := []*Channel{
-		{Name: "channel", CsvName: "csv-name"},
-	}
-	thePackage := &Package{
-		Name:               in.Name,
-		DefaultChannelName: in.Name,
-		Channels:           channels,
-	}
-
-	return thePackage, nil
-}
-func (o *OpenShiftRegistryClientMock) GetBundle(ctx context.Context, in *GetBundleRequest, _ ...grpc.CallOption) (*Bundle, error) {
-	bundle := &Bundle{
-		CsvJson: fmt.Sprintf(`{"spec": {displayName: "%s", "relatedImages": []}}`, in.PkgName),
-	}
-	return bundle, nil
 }
 
 func TestGetPackageByName(t *testing.T) {
@@ -71,6 +49,7 @@ func TestGetPackageByName(t *testing.T) {
 	}
 
 	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
 	mockClient := NewMockRegistryClient(ctrl)
 	mockClient.EXPECT().GetPackage(context.Background(), getPackageRequest).Return(thePackage, nil).MinTimes(1)
 	mockClient.EXPECT().GetBundle(context.Background(), getBundleRequest).Return(bundle, nil).MinTimes(1)
@@ -79,8 +58,10 @@ func TestGetPackageByName(t *testing.T) {
 
 func TestGetPackages(t *testing.T) {
 	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
 	serverStreamingClient := &ServerStreamingClientMock{}
 	mockClient := NewMockRegistryClient(ctrl)
 	mockClient.EXPECT().ListPackages(context.Background(), &ListPackageRequest{}).Return(serverStreamingClient, nil).MinTimes(1)
 	GetPackages(mockClient)
+	assert.Equal(t, 1, serverStreamingClient.RecvCount)
 }
