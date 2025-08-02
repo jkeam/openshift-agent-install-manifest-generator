@@ -64,10 +64,10 @@ func TestGetPackageByName(t *testing.T) {
 	bundle := &Bundle{
 		CsvJson: fmt.Sprintf(`{"spec": {displayName: "%s", "relatedImages": []}}`, packageName),
 	}
-	getBundleRequest := &GetBundleRequest {
-		PkgName: packageName,
+	getBundleRequest := &GetBundleRequest{
+		PkgName:     packageName,
 		ChannelName: channelName,
-		CsvName: csvName,
+		CsvName:     csvName,
 	}
 
 	ctrl := gomock.NewController(t)
@@ -79,8 +79,7 @@ func TestGetPackageByName(t *testing.T) {
 
 func TestGetPackages(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	var serverStreamingClient grpc.ServerStreamingClient[PackageName]
-	serverStreamingClient = &ServerStreamingClientMock{}
+	serverStreamingClient := &ServerStreamingClientMock{}
 	mockClient := NewMockRegistryClient(ctrl)
 	mockClient.EXPECT().ListPackages(context.Background(), &ListPackageRequest{}).Return(serverStreamingClient, nil).MinTimes(1)
 	GetPackages(mockClient)
